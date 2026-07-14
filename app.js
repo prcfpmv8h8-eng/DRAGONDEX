@@ -12,9 +12,52 @@ function save(){
 }
 
 function setup(){
-  const rarities=[...new Set(cards.map(c=>c.rarity).filter(Boolean))].sort();
-  $("#rarityFilter").innerHTML='<option value="">כל הנדירויות</option>'+
-    rarities.map(r=>`<option>${r}</option>`).join("");
+
+  const rarityOrder = [
+    "EM",
+    "EM-GOLD",
+    "C",
+    "UC",
+    "R",
+    "SR",
+    "SPR",
+    "CR",
+    "SCR",
+    "GDR",
+    "SLR"
+  ];
+
+  const rarityNames = {
+    "EM":"⚡ Energy Marker",
+    "EM-GOLD":"🏆 Energy Marker Gold",
+    "C":"Common",
+    "UC":"Uncommon",
+    "R":"Rare",
+    "SR":"Super Rare",
+    "SPR":"Special Rare",
+    "CR":"Concept Rare",
+    "SCR":"Secret Rare",
+    "GDR":"God Rare",
+    "SLR":"Special Leader Rare"
+  };
+
+  const rarities = rarityOrder.filter(r =>
+      cards.some(c => c.rarity === r)
+  );
+
+  $("#rarityFilter").innerHTML =
+      '<option value="">כל הנדירויות</option>' +
+      rarities.map(r => {
+
+          const count = cards.filter(c => c.rarity === r).length;
+
+          return `<option value="${r}">
+              ${rarityNames[r]} (${count})
+          </option>`;
+
+      }).join("");
+
+}
 }
 
 function updateStats(){
