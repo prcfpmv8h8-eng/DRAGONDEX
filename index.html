@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050606">
+<title>DragonDex — BT31</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="splashScreen" class="splash-screen" aria-hidden="true"><div class="splash-orb"></div><img src="dragondex-logo.png" alt=""><span>BT31 • ULTIMATE ADVENT</span></div>
+<div class="app-shell">
+<header class="topbar">
+  <button class="set-badge" data-nav="home"><strong>BT31</strong><small>ULTIMATE ADVENT</small></button>
+  <button class="gear" data-nav="settings" aria-label="הגדרות">⚙</button>
+</header>
+<main>
+<section id="homeView" class="view active">
+  <section class="hero">
+    <div class="hero-dragon"></div>
+    <img src="dragondex-logo.png" class="hero-logo" alt="DragonDex">
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="stat-card green"><i>✓</i><div><small>COLLECTED</small><strong id="ownedStat">0</strong><span>/<b id="totalCountHome">0</b></span></div></article>
+    <article class="stat-card purple"><i>★</i><div><small>WISHLIST</small><strong id="wishStat">0</strong></div></article>
+    <article class="progress-card">
+      <div class="dragon-ring" id="progressRing" style="--progress:0">
+        <img src="dragondex-logo.png" alt="">
+        <div><strong id="progressPercentHome">0%</strong><span>COLLECTION<br>PROGRESS</span></div>
+      </div>
+    </article>
+    <article class="stat-card orange"><i>♦</i><div><small>MISSING</small><strong id="missingStat">0</strong></div></article>
+    <article class="stat-card blue"><i>▱</i><div><small>SET COMPLETION</small><strong id="completionStat">0%</strong></div></article>
+  </section>
+
+  <p class="tagline">The adventure continues beyond all dimensions</p>
+
+  <section class="feature-grid">
+    <button class="feature green" data-nav="collection"><i>▱</i><strong>COLLECTION</strong><span>צפה בכל הקלפים</span></button>
+    <button class="feature purple" data-nav="wishlist"><i>☆</i><strong>WISHLIST</strong><span>הקלפים הבאים שלך</span></button>
+    <button class="feature blue" data-nav="collection" data-focus-search="true"><i>⌕</i><strong>SEARCH</strong><span>חפש קלף</span></button>
+    <button class="feature gold" data-nav="statistics"><i>▥</i><strong>STATISTICS</strong><span>סטטיסטיקות</span></button>
+  </section>
+
+  <section class="rarity-panel"><h3>FILTER BY RARITY</h3><div id="homeRarityChips" class="rarity-strip"></div></section>
+
+  <section class="latest-panel">
+    <header><h3>LATEST ADDITIONS</h3><button data-nav="collection">VIEW ALL ›</button></header>
+    <div id="latestCards" class="latest-cards"></div>
+  </section>
+</section>
+
+<section id="collectionView" class="view">
+  <div class="page-head"><div><small>COLLECTION</small><h2>קלפי BT31</h2></div><div class="counter"><span id="ownedCount">0</span>/<span id="totalCount">0</span></div></div>
+  <section class="controls"><input id="search" type="search" placeholder="חיפוש לפי מספר, שם, נדירות, צבע או סוג"><select id="rarityFilter"><option value="">כל הנדירויות</option></select><select id="statusFilter"><option value="">הכול</option><option value="owned">יש לי</option><option value="missing">חסר לי</option></select></section>
+  <div id="rarityChips" class="rarity-strip collection-filter"></div>
+  <section id="cards" class="cards"></section><p id="emptyState" class="empty" hidden>לא נמצאו קלפים מתאימים.</p>
+</section>
+
+<section id="wishlistView" class="view"><div class="page-head"><div><small>WISHLIST</small><h2>הקלפים שאני רוצה</h2></div><div class="counter" id="wishCount">0</div></div><section id="wishlistCards" class="cards"></section><p id="emptyWishlist" class="empty">ה־Wishlist עדיין ריק.</p></section>
+
+<section id="statisticsView" class="view"><div class="page-head"><div><small>STATISTICS</small><h2>מצב האוסף</h2></div></div><section id="rarityStats" class="stats-list"></section></section>
+
+<section id="settingsView" class="view"><div class="page-head"><div><small>SETTINGS</small><h2>הגדרות</h2></div></div><section class="settings-panel"><div class="setting-row"><div><strong>מקור הנתונים</strong><p>bt31.js</p></div><span class="connected">מחובר</span></div><div class="setting-row"><div><strong>איפוס האוסף</strong><p>מחיקת סימוני "יש לי" וה־Wishlist.</p></div><button id="resetBtn" class="danger">איפוס</button></div></section></section>
+</main>
+<nav class="bottom-nav"><button class="nav-btn active" data-view="home"><span>⌂</span><small>HOME</small></button><button class="nav-btn" data-view="collection"><span>▱</span><small>COLLECTION</small></button><button class="nav-btn" data-view="wishlist"><span>♡</span><small>WISHLIST</small></button><button class="nav-btn" data-view="statistics"><span>▥</span><small>STATISTICS</small></button><button class="nav-btn" data-view="settings"><span>⚙</span><small>SETTINGS</small></button></nav>
+</div>
+<template id="cardTemplate"><article class="card"><div class="card-visual"><img class="card-image" alt="" hidden><div class="image-placeholder">תמונה לא זמינה</div></div><div class="card-head"><div><strong class="card-number"></strong><h3 class="card-name"></h3></div><span class="rarity"></span></div><div class="meta"><span class="card-color"></span><span class="card-type"></span><span class="card-variant"></span></div><div class="actions"><label class="check"><input class="owned" type="checkbox"><span>יש לי</span></label><button class="wish" type="button">☆ Wishlist</button></div></article></template>
+<script src="bt31.js"></script><script src="app.js"></script>
+</body></html>
