@@ -1,0 +1,100 @@
+name: Cache BT31 card images
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cache-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download BT31 images
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import json
+          import time
+
+          prefix = "window.DRAGONDEX_DATA = "
+          file = Path("bt31.js")
+          raw = file.read_text(encoding="utf-8").strip()
+          data = json.loads(raw[len(prefix):].rstrip(";"))
+
+          folder = Path("images/cards")
+          folder.mkdir(parents=True, exist_ok=True)
+
+          base = "https://www.dbs-cardgame.com/images/cardlist/cardimg/"
+          failures = []
+
+          def download(url, target):
+              try:
+                  request = Request(
+                      url,
+                      headers={
+                          "User-Agent": "Mozilla/5.0",
+                          "Referer": "https://www.dbs-cardgame.com/"
+                      }
+                  )
+                  with urlopen(request, timeout=30) as response:
+                      target.write_bytes(response.read())
+                  return True
+              except Exception as error:
+                  print("FAILED:", url, error)
+                  return False
+
+          for card in data["cards"]:
+              card_id = card["id"]
+
+              if card.get("type") == "ENERGY MARKER":
+                  continue
+
+              front_url = f"{base}{card_id}.png"
+              front_file = folder / f"{card_id}.png"
+
+              if download(front_url, front_file):
+                  card["image"] = front_file.as_posix()
+              else:
+                  failures.append(front_url)
+
+              if card.get("type") == "LEADER":
+                  back_url = f"{base}{card_id}_b.png"
+                  back_file = folder / f"{card_id}_back.png"
+
+                  if download(back_url, back_file):
+                      card["imageBack"] = back_file.as_posix()
+                  else:
+                      failures.append(back_url)
+
+              time.sleep(0.15)
+
+          file.write_text(
+              prefix + json.dumps(data, ensure_ascii=False, indent=2) + ";\n",
+              encoding="utf-8"
+          )
+
+          if failures:
+              Path("image-download-failures.txt").write_text(
+                  "\n".join(failures),
+                  encoding="utf-8"
+              )
+          PY
+
+      - name: Commit downloaded images
+        run: |
+          git config user.name "DragonDex Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add bt31.js images/cards image-download-failures.txt 2>/dev/null || true
+          git commit -m "Download correct BT31 card images" || exit 0
+          git push
