@@ -1,0 +1,215 @@
+
+/* DragonDex premium moving Nimbus progress */
+.premium-flight-card{
+  position:relative;
+  overflow:hidden;
+  margin-top:20px;
+  padding:22px 20px 24px;
+  border:1px solid rgba(246,181,49,.36);
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 14% 25%,rgba(255,192,46,.08),transparent 30%),
+    linear-gradient(145deg,rgba(8,13,18,.98),rgba(13,20,25,.98));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 18px 45px rgba(0,0,0,.28),
+    0 0 32px rgba(246,181,49,.05);
+}
+.premium-flight-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  background-image:
+    radial-gradient(circle at 20% 25%,rgba(255,255,255,.3) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 70% 70%,rgba(255,207,72,.25) 0 1px,transparent 1.4px);
+  background-size:34px 34px,48px 48px;
+}
+.premium-flight-card .flight-progress-head,
+.premium-flight-card .flight-progress-footer,
+.premium-flight-card .premium-track{position:relative;z-index:1}
+.premium-flight-card .flight-progress-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  direction:rtl;
+  margin-bottom:18px;
+}
+.progress-title-group{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.progress-title-group p{margin:0;color:#aab2c2;font-weight:700}
+.premium-flight-card #progressPercentHome{
+  direction:ltr;
+  color:#ffd15a;
+  font-size:46px;
+  line-height:1;
+  font-weight:950;
+  letter-spacing:-2px;
+  text-shadow:0 0 24px rgba(255,190,40,.2);
+}
+.premium-flight-card .set-chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:76px;
+  padding:10px 16px;
+  border-radius:999px;
+  color:#251500;
+  font-size:18px;
+  font-weight:950;
+  background:linear-gradient(180deg,#ffd863,#f3ae22);
+  box-shadow:inset 0 1px 0 #fff7,0 8px 18px rgba(246,181,49,.15);
+}
+.premium-track{
+  --progress:0;
+  direction:ltr;
+  height:108px;
+  margin:0 4px 2px;
+}
+.premium-line{
+  position:absolute;
+  left:5px;
+  right:5px;
+  top:51px;
+  height:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,188,39,.85);
+  border-radius:999px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.035),transparent),
+    repeating-linear-gradient(90deg,transparent 0 32px,rgba(246,181,49,.035) 33px 34px),
+    #10151a;
+  box-shadow:
+    inset 0 0 12px rgba(0,0,0,.75),
+    0 0 0 1px rgba(246,181,49,.08),
+    0 0 14px rgba(246,181,49,.12);
+}
+.premium-line::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:inherit;
+  opacity:.17;
+  background:
+    radial-gradient(ellipse at 10% 80%,transparent 0 8px,#f3b934 9px 10px,transparent 11px) 0 0/56px 18px repeat-x;
+}
+.premium-line #progressBarHome{
+  position:absolute;
+  inset:0 auto 0 0;
+  width:calc(var(--progress) * 1%);
+  border-radius:999px;
+  background:
+    linear-gradient(90deg,#ff9b0d,#ffc52f 55%,#fff09b);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    0 0 10px #ffae18,
+    0 0 25px rgba(255,174,24,.55);
+  transition:width .7s cubic-bezier(.22,.8,.25,1);
+}
+.premium-line #progressBarHome::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle,rgba(255,255,255,.85) 0 1px,transparent 1.5px);
+  background-size:16px 14px;
+  opacity:.38;
+  animation:ddSparkle 1.4s linear infinite;
+}
+.spark{position:absolute;top:56px;width:4px;height:4px;border-radius:50%;background:#fff3b3;box-shadow:0 0 8px #ffc52f;opacity:0}
+.spark-1{left:18%;animation:ddFlySpark 2.1s .1s infinite}
+.spark-2{left:44%;animation:ddFlySpark 2.5s .7s infinite}
+.spark-3{left:72%;animation:ddFlySpark 2.2s 1.3s infinite}
+
+.premium-nimbus{
+  position:absolute;
+  z-index:3;
+  left:clamp(42px,calc(42px + (100% - 84px) * var(--progress) / 100),calc(100% - 42px));
+  top:32px;
+  width:86px;
+  height:54px;
+  transform:translateX(-50%);
+  transition:left .75s cubic-bezier(.22,.8,.25,1);
+  filter:drop-shadow(0 8px 7px rgba(0,0,0,.5));
+}
+.nimbus-glow{
+  position:absolute;
+  left:3px;right:3px;bottom:0;height:32px;
+  border-radius:50%;
+  background:rgba(255,185,31,.35);
+  filter:blur(10px);
+}
+.premium-nimbus .cloud-puff{
+  position:absolute;
+  bottom:5px;
+  border-radius:50%;
+  background:linear-gradient(180deg,#ffe875 0%,#ffc32f 55%,#e99a10 100%);
+  border:1px solid rgba(255,218,80,.95);
+  box-shadow:inset 0 3px 3px rgba(255,255,255,.45),0 0 9px rgba(255,184,24,.45);
+}
+.puff-a{left:5px;width:35px;height:25px}
+.puff-b{left:25px;width:42px;height:31px}
+.puff-c{left:54px;width:28px;height:22px}
+.puff-d{left:16px;bottom:1px!important;width:55px;height:19px}
+.goku-figure{position:absolute;left:31px;bottom:24px;width:31px;height:48px;animation:ddFloat 1.8s ease-in-out infinite}
+.goku-figure .head{
+  position:absolute;left:11px;top:10px;width:13px;height:14px;border-radius:48% 48% 45% 45%;
+  background:#f0a06d;border:1px solid #8c4427;z-index:4;
+}
+.goku-figure .body{
+  position:absolute;left:8px;top:23px;width:19px;height:20px;border-radius:7px 7px 4px 4px;
+  background:linear-gradient(90deg,#e76918 0 70%,#164daa 71%);
+  border:1px solid #6f2f17;z-index:3;
+}
+.goku-figure .belt{position:absolute;left:8px;top:34px;width:19px;height:4px;background:#174caa;z-index:5}
+.goku-figure .hair{
+  position:absolute;top:3px;width:9px;height:16px;background:#101013;border-radius:90% 10% 70% 25%;
+  transform-origin:bottom;z-index:2;
+}
+.hair-1{left:8px;transform:rotate(-37deg)}
+.hair-2{left:14px;top:0!important;transform:rotate(-8deg)}
+.hair-3{left:20px;transform:rotate(30deg)}
+.goku-figure .arm{position:absolute;top:25px;width:6px;height:16px;background:#ef9b68;border:1px solid #814327;border-radius:6px;z-index:2}
+.arm-a{left:4px;transform:rotate(28deg)}
+.arm-b{right:0;transform:rotate(-28deg)}
+.goku-figure .leg{position:absolute;top:39px;width:8px;height:14px;background:#174caa;border-radius:4px;z-index:2}
+.leg-a{left:8px;transform:rotate(18deg)}
+.leg-b{left:20px;transform:rotate(-18deg)}
+.premium-track .track-label{
+  position:absolute;
+  top:78px;
+  color:#b2bbcc;
+  font-size:13px;
+  font-weight:850;
+  direction:ltr;
+}
+.premium-track .track-start{left:4px}
+.premium-track .track-end{right:4px}
+.premium-flight-card .flight-progress-footer{
+  margin-top:5px;
+  text-align:center;
+  color:#aab2c2;
+  font-size:16px;
+}
+.premium-flight-card .flight-progress-footer b{color:#fff;font-size:20px}
+.premium-flight-card .flight-progress-footer b:first-child{color:#ffc947}
+
+@keyframes ddSparkle{to{background-position:16px 0}}
+@keyframes ddFlySpark{
+  0%,100%{transform:translate(0,0) scale(.5);opacity:0}
+  30%{opacity:1}
+  70%{transform:translate(16px,-9px) scale(1.2);opacity:.7}
+}
+@keyframes ddFloat{50%{transform:translateY(-3px) rotate(-1deg)}}
+
+@media(max-width:520px){
+  .premium-flight-card{padding:20px 14px 22px;border-radius:23px}
+  .premium-flight-card #progressPercentHome{font-size:40px}
+  .premium-track{height:100px;margin-inline:0}
+  .premium-line{top:48px;height:16px}
+  .premium-nimbus{top:30px;transform:translateX(-50%) scale(.9)}
+  .premium-track .track-label{top:73px}
+}
+@media(prefers-reduced-motion:reduce){
+  .premium-line #progressBarHome,.premium-nimbus{transition:none}
+  .goku-figure,.premium-line #progressBarHome::after,.spark{animation:none}
+}
